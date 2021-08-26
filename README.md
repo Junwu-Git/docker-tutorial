@@ -5,9 +5,19 @@
  教你用 [Docker](https://www.docker.com/) 建立 [Django](https://github.com/django/django) + [PostgreSQL](https://www.postgresql.org/) 📝
 
 * [Youtube Tutorial PART 1 - Docker 基本教學 - 從無到有 Docker-Beginners-Guide](https://youtu.be/Wg5m0-Jyox8)
-* [Youtube Tutorial PART 2 - 用 Docker 實戰 Django 以及 Postgre](https://youtu.be/aZ6woJ7qekE)
-* [Youtube Tutorial PART 3 - Docker 基本教學 - 透過 portainer 管理  Docker](https://youtu.be/VZjHmBcEcew)
-* [Youtube Tutorial PART 4 - Docker push image to Docker Hub 教學](https://youtu.be/dVBKwmqO5e4)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#%E7%94%A8-docker-%E5%AF%A6%E6%88%B0-django-%E4%BB%A5%E5%8F%8A-postgre) - [Youtube Tutorial PART 2 - 用 Docker 實戰 Django 以及 Postgre](https://youtu.be/aZ6woJ7qekE)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#%E5%85%B6%E4%BB%96%E7%AE%A1%E7%90%86-docker-gui-%E7%9A%84%E5%B7%A5%E5%85%B7) - [Youtube Tutorial PART 3 - Docker 基本教學 - 透過 portainer 管理  Docker](https://youtu.be/VZjHmBcEcew)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-registry) - [Youtube Tutorial PART 4 - Docker push image to Docker Hub 教學](https://youtu.be/dVBKwmqO5e4)
+
+其他說明
+
+* [Youtube Tutorial-Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-networks) - [Youtube Tutorial-docker-compose networks 說明](https://youtu.be/wmV9WfkpyGk)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0) - [Youtube Tutorial-docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-auto-run-linux) - [Youtube Tutorial-Linux 教學-開機自動啟動 docker / compose](https://youtu.be/c4YIQHCDLnQ)
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-env-tutorial) - [Youtube Tutorial - Docker 基本教學 - 在 docker compose 中善用 Environment variables](https://youtu.be/JwbI1aNKbtY)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#%E5%A6%82%E4%BD%95%E6%B8%85%E9%99%A4-docker-container-log) - [Youtube Tutorial - 如何清除 Docker container log](https://youtu.be/SiG0tmwhqqg)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#json-file-logging-driver) - [Youtube Tutorial - Docker 中的 JSON File logging driver(container log)](https://youtu.be/wb9bONgnFn4)
 
 ## 簡介
 
@@ -190,6 +200,44 @@ MAC 我本身也有，但因為更早之前就裝了，步驟就沒記錄了，�
 
 [https://www.docker.com/docker-mac](https://www.docker.com/docker-mac)
 
+Linux
+
+[Youtube Tutorial-Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA)
+
+這裡使用 Ubuntu 當作範例,
+
+雖然在 ubuntu 中有 `snap` 可以非常快速的安裝 docker,
+
+但在這邊我們不使用 `snap` 的方法安裝:smile:
+
+請參考官方文件步驟安裝,
+
+Get Docker Engine - Community for Ubuntu
+
+[Get Docker Engine - Community for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+安裝後步驟 (optional:exclamation:), 但建議參考一下
+
+[Post-installation steps for Linux](https://docs.docker.com/install/linux/linux-postinstall/)
+
+docker-compose 的安裝
+
+[docker-compose install](https://docs.docker.com/compose/install/)
+
+系統資源分配問題,
+
+假如你是使用 windows 或是 mac 的 docker,
+
+你會有一個界面可以設定你要分多少的 cpu 以及 ram 給你的 docker,
+
+通常會在 Preferences -> Advanced, 有 GUI 界面,
+
+![](https://i.imgur.com/CWMQHxs.png)
+
+但如果是使用 linux, 就不會有這個界面, 因為在 Linux 中,
+
+會自動依照系統的資源進行分配.
+
 ## 指令介紹
 
 接著介紹一些 Docker 的指令，
@@ -311,6 +359,13 @@ docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
 docker exec -it <Container ID> bash
 ```
 
+使用 root 使用者進入　
+
+```cmd
+docker exec -u 0 -it <Container ID> bash
+docker exec -u root -it <Container ID> bash
+```
+
 打指令比較潮，或是說你也可以透過 [Kitematic](https://kitematic.com/) 進入。
 
 [](https://i.imgur.com/Yui1UZb.png)
@@ -338,6 +393,13 @@ docker logs [OPTIONS] CONTAINER
 `--follow` , `-f`  ,  Follow log output
 
 更詳細的可參考 [https://docs.docker.com/engine/reference/commandline/logs/](https://docs.docker.com/engine/reference/commandline/logs/)
+
+
+從最後 100 行開始追蹤,
+
+```cmd
+docker logs -f --tail 100 CONTAINER
+```
 
 顯示容器資源 ( CPU , I/O ...... )
 
@@ -752,6 +814,34 @@ docker-compose push
 
 官網也解釋的沒有很清楚 [https://docs.docker.com/compose/reference/push/](https://docs.docker.com/compose/reference/push/)
 
+### docker-compose up/down 和 restart 的差異
+
+* [Youtube Tutorial- docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
+
+先來談 `docker-compose up/down`,
+
+假如今天你修改了 `docker-compose.yml` 又或是更新了 image,
+
+當你要重建 docker , 有幾種方法,
+
+方法一.
+
+先停止 container, 執行 `docker-compose down` 再執行 `docker-compose up`.
+
+方法二.
+
+不需要停止 container, 直接執行 `docker-compose up -d`.
+
+(他會自動幫你重建, 很方便, 不需要多一步先關閉 container )
+
+結論, 只要你的 `docker-compose.yml` 有任何變動, 一定要執行 `docker-compose up` 才會生效.
+
+再來談 `docker-compose restart`,
+
+請看官方文件 [docker-compose restart](https://docs.docker.com/compose/reference/restart/), 如果你對 `docker-compose.yml` 修改, 然後使用這個指令, 是**不會**生效的,
+
+但是, 如果你是改 code (可能是 python code), 那這個指令是有效的.
+
 ### docker-compose networks
 
 * [Youtube Tutorial - docker-compose networks 說明](https://youtu.be/wmV9WfkpyGk)
@@ -1104,6 +1194,12 @@ docker build --tag web_image .
 
 `--tag , -t` , tag 這個 image 名稱為 web_image
 
+也可以是
+
+```cmd
+docker build -t user/repo:tag .
+```
+
 web 容器
 
 ```cmd
@@ -1293,6 +1389,88 @@ sudo lsof -t -i tcp:8000 | xargs kill -9
 lsof -i tcp:5432
 ```
 
+## 在 Linux 中自動啟動 docker
+
+[在 Linux 中自動啟動 docker](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-auto-run-linux)
+
+## 如何清除 Docker container log
+
+[Youtube Tutorial - 如何清除 Docker container log](https://youtu.be/SiG0tmwhqqg)
+
+docker 的 container log 都會在 `/var/lib/docker/containers` 裡面
+
+( 前提是你使用官方的安裝方法, [Youtube Tutorial-Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA))
+
+如果你是使用 `snap` 安裝 docker, 路徑則會在 `/var/snap/docker/common/var-lib-docker/containers`.
+
+![alt tag](https://i.imgur.com/sK5k4Iw.png)
+
+log 是一個 json 的檔案
+
+![alt tag](https://i.imgur.com/feSGmcm.png)
+
+如果你一直不去管他, log 就會越來越大:scream:
+
+以下狀況這個 log 會被清除, 就是修改了 `docker-compose.yml` 或是
+
+你執行了 `docker-compose down`, 這些 logs 都會被清除 (因為 containers 重新建立).
+
+(`docker-compose stop` 不受影響, 因為只是暫停而已)
+
+建立大家可參考 [docker-compose up/down 和 restart 的差異](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0)
+
+那你可能會問我, 如果我很長一段時間都不會修改 `docker-compose.yml` 以及執行
+
+`docker-compose down` 該怎麼辦:sob: (因為 log 可能會長很快)
+
+這邊提供大家一個方法, 使用 linux 中的 truncate 指令(可參考 [ Linux 指令教學 - truncate](https://github.com/twtrubiks/linux-note#truncate))
+
+刪除全部 container 的 logs
+
+```cmd
+truncate -s 0 /var/lib/docker/containers/*/*-json.log
+```
+
+但是有時候只希望針對(清除)某個 container 的 logs, 這時候就可以使用以下的指令
+
+```cmd
+truncate -s 0 $(docker inspect --format='{{.LogPath}}' <container_name_or_id>)
+```
+
+(`container_name_or_id` 請換上自己 container 的 id 或 name)
+
+其中的 `docker inspect --format='{{.LogPath}}' <container_name_or_id>` 只是顯示路徑而已.
+
+![alt tag](https://i.imgur.com/TKCCdio.png)
+
+但還有一個更好的方法, 直接透過 docker 內的 JSON File logging driver.
+
+## JSON File logging driver
+
+[Youtube Tutorial - Docker 中的 JSON File logging driver(container log)](https://youtu.be/wb9bONgnFn4)
+
+在 docker 中 json-file driver 是默認的 default logging driver, 詳細可參考 [json-file](https://docs.docker.com/config/containers/logging/json-file/)
+
+所以我們可以透過這個設定限制 log 的大小,
+
+```yaml
+logging:
+  driver: "json-file"
+  options:
+    max-file: "1"    # default 是 1
+    max-size: "200m" # default 是 -1, 也就是沒有限制
+```
+
+設定完之後重新啟動 docker-compose, 可以使用以下的指令查看是否生效
+
+```cmd
+docker inspect --format '{{.HostConfig.LogConfig}}' CONTAINER
+```
+
+![alt tag](https://i.imgur.com/L6Z7bYX.png)
+
+這樣設定完之後, 就不用再擔心 container log 吃掉大量的容量了:smile:
+
 ## 後記：
 
 Docker 算是我最近才開始接觸的，所以也算是新手，如果我有任何講錯的，歡迎和我說，我會再修改  :grinning:
@@ -1327,9 +1505,21 @@ Docker 可以玩的真的很多，延伸參考
 
 文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡:laughing:
 
+綠界科技ECPAY ( 不需註冊會員 )
+
+![alt tag](https://payment.ecpay.com.tw/Upload/QRCode/201906/QRCode_672351b8-5ab3-42dd-9c7c-c24c3e6a10a0.png)
+
+[贊助者付款](http://bit.ly/2F7Jrha)
+
+歐付寶 ( 需註冊會員 )
+
 ![alt tag](https://i.imgur.com/LRct9xa.png)
 
 [贊助者付款](https://payment.opay.tw/Broadcaster/Donate/9E47FDEF85ABE383A0F5FC6A218606F8)
+
+## 贊助名單
+
+[贊助名單](https://github.com/twtrubiks/Thank-you-for-donate)
 
 ## License
 
