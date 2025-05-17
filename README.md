@@ -11,13 +11,19 @@
 
 其他說明
 
-* [Youtube Tutorial-Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA)
-* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-networks) - [Youtube Tutorial-docker-compose networks 說明](https://youtu.be/wmV9WfkpyGk)
-* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0) - [Youtube Tutorial-docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
-* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-auto-run-linux) - [Youtube Tutorial-Linux 教學-開機自動啟動 docker / compose](https://youtu.be/c4YIQHCDLnQ)
+* [Youtube Tutorial - Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-networks) - [Youtube Tutorial - docker-compose networks 說明](https://youtu.be/wmV9WfkpyGk)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-container-%E5%85%A7%E5%A6%82%E4%BD%95%E9%80%A3%E6%8E%A5%E5%88%B0%E6%9C%AC%E6%A9%9F-localhost-%E6%9C%8D%E5%8B%99) - [Youtube Tutorial - Docker container 內如何連接到本機 localhost 服務](https://youtu.be/KbaHWdVej9U)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#docker-compose-updown-%E5%92%8C-restart-%E7%9A%84%E5%B7%AE%E7%95%B0) - [Youtube Tutorial - docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-auto-run-linux) - [Youtube Tutorial - Linux 教學 - 開機自動啟動 docker / compose](https://youtu.be/c4YIQHCDLnQ)
 * [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-env-tutorial) - [Youtube Tutorial - Docker 基本教學 - 在 docker compose 中善用 Environment variables](https://youtu.be/JwbI1aNKbtY)
 * [目錄](https://github.com/twtrubiks/docker-tutorial#%E5%A6%82%E4%BD%95%E6%B8%85%E9%99%A4-docker-container-log) - [Youtube Tutorial - 如何清除 Docker container log](https://youtu.be/SiG0tmwhqqg)
 * [目錄](https://github.com/twtrubiks/docker-tutorial#json-file-logging-driver) - [Youtube Tutorial - Docker 中的 JSON File logging driver(container log)](https://youtu.be/wb9bONgnFn4)
+* [目錄](https://github.com/twtrubiks/docker-tutorial#health-check) - [Youtube Tutorial - docker 教學 Health Check](https://youtu.be/QffnQZgvmwE)
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-compose-override) - 介紹 docker-compose-override
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-compose-profiles) - 介紹 docker-compose-profiles
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/docker-yaml-anchors) - 介紹 YAML Anchors
+* [目錄](https://github.com/twtrubiks/docker-tutorial/tree/master/cadvisor_tutorial) - 介紹 cadvisor - 可監控 docker 容器
 
 ## 簡介
 
@@ -73,7 +79,7 @@ Feauture  | Containers                  |  Virtual Machines ( 傳統的虛擬�
  支援數量 | 非常多 Containers        | 10多個就很了不起了
  複製相同環境 | 快        | 超慢
 
-不理解:question::question::question:
+不理解 :question: :question: :question:
 
 我們來看一張圖，包準你懂
 
@@ -90,7 +96,7 @@ Feauture  | Containers                  |  Virtual Machines ( 傳統的虛擬�
 
 比起像是 [https://www.virtualbox.org/](https://www.virtualbox.org/)，Docker 的利用率更高，我們可以設定更多
 
-的 Containers ，而且啟動速度飛快！！:flushed:
+的 Containers, 而且啟動速度飛快！！ :flushed:
 
 #### 統一環境
 
@@ -136,7 +142,7 @@ Container 在啟動的時候會建立一層在最外（上）層並且是讀寫�
 
 可以把它想成類似 [GitHub](https://github.com/)，裡面存放了非常多的 Image ，可在 [Docker Hub](https://hub.docker.com/) 中查看。
 
-更詳細的我這邊就不再解釋惹，留給大家做作功課:stuck_out_tongue:
+更詳細的我這邊就不再解釋惹，留給大家做作功課 :stuck_out_tongue:
 
 ## 安裝
 
@@ -208,7 +214,7 @@ Linux
 
 雖然在 ubuntu 中有 `snap` 可以非常快速的安裝 docker,
 
-但在這邊我們不使用 `snap` 的方法安裝:smile:
+但在這邊我們不使用 `snap` 的方法安裝 :smile:
 
 請參考官方文件步驟安裝,
 
@@ -216,7 +222,7 @@ Get Docker Engine - Community for Ubuntu
 
 [Get Docker Engine - Community for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-安裝後步驟 (optional:exclamation:), 但建議參考一下
+安裝後步驟 (optional :exclamation:), 但建議參考一下
 
 [Post-installation steps for Linux](https://docs.docker.com/install/linux/linux-postinstall/)
 
@@ -401,10 +407,106 @@ docker logs [OPTIONS] CONTAINER
 docker logs -f --tail 100 CONTAINER
 ```
 
+或是
+
+```cmd
+docker logs -f -n 100 CONTAINER
+```
+
+可以透過 `--since` 從指定時間到現在的 log,
+
+例如,
+
+```cmd
+docker logs --since 2023-04-13T09:20:00 <container_id>
+```
+
+從 10 分鐘前到現在的 log
+
+```cmd
+docker logs --since 10m CONTAINER
+```
+
+1 小時前到現在的 log
+
+```cmd
+docker logs --since 1h CONTAINER
+```
+
+如果想指定時間, 查看特定區間的 logs,
+
+可以先使用 `-t` 找出 docker 的時間格式,
+
+```cmd
+docker logs -t CONTAINER
+```
+
+接著就可以使用 `--since` 或 `--until` 指定時間段,
+
+一定要用 docker 的時間格式, 不然會無法生效.
+
+這邊來個組合, 找出 8:10 ~ 8:30 的全部 log
+
+```cmd
+docker logs --since 2023-12-10T8:10:00.346748975Z  --until 2023-12-10T8:30:00.346748975Z  CONTAINER
+```
+
+也可以把 log 寫進去檔案中,
+
+```cmd
+docker logs CONTAINER >> access.log
+```
+
+如果上述指令沒有生效, 請修改成以下
+
+```cmd
+docker logs CONTAINER >& access.log
+```
+
+也可以先過濾 log 再寫進檔案中,
+
+```cmd
+docker logs CONTAINER | grep "29/Mar/2022" >> access_tmp.log
+```
+
+如果上述指令沒有生效, 請修改成以下
+
+```cmd
+docker logs CONTAINER 2>&1 | grep "29/Mar/2022" >& access_tmp.log
+```
+
 顯示容器資源 ( CPU , I/O ...... )
 
 ```cmd
 docker stats [OPTIONS] [CONTAINER...]
+```
+
+也可以加上 `--no-stream`
+
+```cmd
+docker stats --no-stream
+```
+
+`--no-stream` Disable streaming stats and only pull the first result.
+
+注意 :exclamation: :exclamation: 這邊得到的 memory usage 會比實際上的還要小,
+
+因為這邊的值是再減去 cache usage memory.
+
+相關 issues 可參考 [https://github.com/moby/moby/issues/32253](https://github.com/moby/moby/issues/32253)
+
+```txt
+On Linux, the Docker CLI reports memory usage by subtracting cache usage from the total memory usage.
+```
+
+詳細說明可參考 [https://docs.docker.com/engine/reference/commandline/stats/](https://docs.docker.com/engine/reference/commandline/stats/)
+
+也可參考 [https://docs.docker.com/config/containers/runmetrics/](https://docs.docker.com/config/containers/runmetrics/)
+
+查看 container 中正在執行的 processes
+
+```CMD
+docker top CONTAINER
 ```
 
 停止指定的 CONTAINER 中全部的 **processes**
@@ -540,6 +642,10 @@ docker container prune
 
 更多資訊可參考 [container_prune](https://docs.docker.com/engine/reference/commandline/container_prune/)
 
+### ENTRYPOINT
+
+教學說明請點選 [entrypoint-tutorial](https://github.com/twtrubiks/docker-tutorial/tree/master/entrypoint-tutorial)
+
 ### Volume
 
 接下來要介紹 Volume，Volume 是 Docker 最推薦存放 persisting data（ 數據 ）的機制，
@@ -592,6 +698,72 @@ docker volume inspect [OPTIONS] VOLUME [VOLUME...]
 ```cmd
 docker volume prune [OPTIONS]
 ```
+
+也可以建立 readonly 的 volumes (容器內 readonly)
+
+`docker-compose.yml` 方法如下,
+
+```yml
+version: '3.5'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - "nfs-data:/data:ro,z"
+
+volumes:
+    nfs-data:
+```
+
+如果要可讀寫, 就設定 `rw`.
+
+volumes 在容器內的確不能寫 (只能讀)
+
+![alt tag](https://i.imgur.com/ve4572t.png)
+
+使用以下的指令查看 Mounts, 觀察它的 Mode
+
+```cmd
+docker inspect <container ID>
+```
+
+![alt tag](https://i.imgur.com/ex8A3Y5.png)
+
+也可以建立 NFS volumes,
+
+`docker-compose.yml` 方法如下,
+
+```yml
+version: '3.5'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - "nfs-data:/data"
+
+volumes:
+    nfs-data:
+      driver: local
+      driver_opts:
+        type: nfs
+        o: nfsvers=4,addr=ip,rw
+        device: ":/path/to/dir"
+```
+
+可以用以下指令查看設定
+
+```cmd
+docker volume ls
+docker inspect <volume name>
+```
+
+![alt tag](https://i.imgur.com/8mzUGsg.png)
+
+NFS 相關文章可參考 [linux-nfs-server - 如何在 ubuntu 啟用 NFS Server](https://github.com/twtrubiks/linux-note/tree/master/linux-nfs-server)
 
 ### network
 
@@ -669,7 +841,7 @@ docker network disconnect [OPTIONS] NETWORK CONTAINER
 
 ![](https://i.imgur.com/YxrrO7t.png)
 
-Compose 是定義和執行多 Container 管理的工具，不懂我在說什麼:question::question::question:
+Compose 是定義和執行多 Container 管理的工具，不懂我在說什麼 :question: :question: :question:
 
 試著想想看，通常一個 Web 都還會有 DB，甚至可能還有 [Redis](https://redis.io/) 或 [Celery](http://www.celeryproject.org/)，
 
@@ -724,6 +896,18 @@ docker-compose up [options] [--scale SERVICE=NUM...] [SERVICE...]
 ```cmd
 docker-compose up -d
 ```
+
+然後如果你有很多個 `docker-compose.yml` `docker-compose-dev.yml`,
+
+你可以透過 `-f` 決定你要執行哪一個, 範例如下,
+
+```cmd
+docker-compose -f ./docker-compose-dev.yml up -d
+```
+
+`-f` `--file FILE` Specify an alternate compose file
+
+(default: `docker-compose.yml`)
 
 `up` 這個功能很強大，建議可以參考 [https://docs.docker.com/compose/reference/up/](https://docs.docker.com/compose/reference/up/)
 
@@ -816,7 +1000,7 @@ docker-compose push
 
 ### docker-compose up/down 和 restart 的差異
 
-* [Youtube Tutorial- docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
+* [Youtube Tutorial - docker-compose up/down 和 restart 的差異](https://youtu.be/nX-sbLPz-MU)
 
 先來談 `docker-compose up/down`,
 
@@ -846,7 +1030,7 @@ docker-compose push
 
 * [Youtube Tutorial - docker-compose networks 說明](https://youtu.be/wmV9WfkpyGk)
 
-這邊多補充 docker-compose networks 的觀念，因為剛好最近有用到:smile:
+這邊多補充 docker-compose networks 的觀念，因為剛好最近有用到 :smile:
 
 ```yml
 version: '3.5'
@@ -941,7 +1125,7 @@ docker run -p 80 \
 
 本機被隨機分配到 32768 以及 32769 port，
 
-這邊不管我們怎麼設定 ports，這些 ports 都會暴露給本機 (HOST) 以及其他 containers，這點很重要:exclamation::exclamation:
+這邊不管我們怎麼設定 ports，這些 ports 都會暴露給本機 (HOST) 以及其他 containers，這點很重要 :exclamation: :exclamation:
 
 也就是說，如果本機 5001 ports 被使用了，其他的 containers 就無法使用 5001 ports，
 
@@ -971,13 +1155,58 @@ expose 和 ports 最大的差別就是在 expose 不會暴露 port 給本機(HOS
 
 expose 是本機(HOST) 無法被訪問，只有在 containers 中可以被訪問。
 
+## Docker container 內如何連接到本機 localhost 服務
+
+* [Youtube Tutorial - Docker container 內如何連接到本機 localhost 服務](https://youtu.be/KbaHWdVej9U)
+
+![alt tag](https://i.imgur.com/kQLcALp.png)
+
+假設今天在本機上有一個 A 服務, 他是使用 docker run 起來的,
+
+而本機上還有一個 B 服務, 是用 vscode run 起來的 (非 docker),
+
+這時候我有一個需求, 我想要將我的 A 服務連線到我的 B 服務,
+
+也就是從 docker 內的服務連接到本機 localhost.
+
+比較簡單的方法, 就是透過 docker 內的這個參數,
+
+`host.docker.internal:host-gateway`.
+
+在你的 yml 裡面加上,
+
+```yml
+version: '3.5'
+services:
+
+  web:
+    ......
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+......
+```
+
+這樣當你在容器內, 就可以順利訪問本機 :smile:
+
+```cmd
+curl http://host.docker.internal:8069
+```
+
+也可以參考 [docker compose 安裝 pgadmin4](https://github.com/twtrubiks/docker-pgadmin4-tutorial#docker-compose-%E5%AE%89%E8%A3%9D-pgadmin4),
+
+假設今天不考慮使用網路的方法, 如果一個容器 db 是在 5432, 另一個容器是 pgadmin4,
+
+這樣要怎麼透過 pgadmin4 連接到我的本機的 5432 呢 😵‍💫
+
+答案就是使用 `host.docker.internal:host-gateway`.
+
 ## Docker Registry
 
 ![](https://i.imgur.com/uAXUtxT.png)
 
 可以把它想成是一個類似 github 的地方，只不過裡面變成是存 docker 的東西，當然，
 
-也可以自己架，但會有一些額外的成本，像是網路，維護等等，這部分就要自己衡量了:grinning:
+也可以自己架，但會有一些額外的成本，像是網路，維護等等，這部分就要自己衡量了 :grinning:
 
 接下來教大家如何將 image push 到 Docker Registry :smiley:
 
@@ -1088,7 +1317,7 @@ DATABASES = {
 `Dockerfile`
 
 ```text
-FROM python:3.6.2
+FROM python:3.8.12
 LABEL maintainer twtrubiks
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /docker_api
@@ -1138,13 +1367,13 @@ volumes:
 
 溫馨小提醒 1  :heart:
 
-可能有人會問為什麼我是使用 `0.0.0.0`，而不是使用 `127.0.0.1`:question::question:
+可能有人會問為什麼我是使用 `0.0.0.0`，而不是使用 `127.0.0.1` :question: :question:
 
 ```cmd
 python manage.py runserver 0.0.0.0:8000
 ```
 
-`127.0.0.1`，並不代表真正的 **本機**，我們經常認為他是本機是因為我們電腦的 `host` 預設都幫你設定好了:smirk:
+`127.0.0.1`，並不代表真正的 **本機**，我們經常認為他是本機是因為我們電腦的 `host` 預設都幫你設定好了 :smirk:
 
 詳細的 `host` 設定教學可參考 [hosts-設定檔 以及 查詢內網 ip](https://github.com/twtrubiks/docker-django-nginx-uswgi-postgres-tutorial#hosts-設定檔-以及-查詢內網-ip)，
 
@@ -1206,7 +1435,7 @@ web 容器
 docker run --name web -v api_data:/docker_api -p 8000:8000 --network=my_network --restart always web_image python manage.py runserver 0.0.0.0:8000
 ```
 
-以上這樣，和 `docker-compose.yml`  其實是一樣的:open_mouth:
+以上這樣，和 `docker-compose.yml`  其實是一樣的 :open_mouth:
 
 設定完了之後，接下來我們就可以啟動他了
 
@@ -1233,6 +1462,8 @@ docker-compose up
 我們成功啟動了 ( db 連線也正常 )
 
 ![](https://i.imgur.com/iuCxLMY.png)
+
+:exclamation: [commit](https://github.com/twtrubiks/docker-tutorial/commit/398cb2fc375af8926cfe1eeabda33da018437897) 已經更新為自動 migrate :exclamation:
 
 但你仔細看上圖，你會發現他說你還沒 migrate
 
@@ -1261,6 +1492,12 @@ python manage.py migrate
 ```cmd
 python manage.py createsuperuser
 ```
+
+:exclamation: [commit](https://github.com/twtrubiks/docker-tutorial/commit/398cb2fc375af8926cfe1eeabda33da018437897) 已經更新為自動建立 superuser :exclamation:
+
+請參考 [docker-compose.yml](https://github.com/twtrubiks/docker-tutorial/blob/master/docker-compose.yml) 中的 environment ( 如下 ),
+
+`DJANGO_SUPERUSER_USERNAME` `DJANGO_SUPERUSER_PASSWORD` `DJANGO_SUPERUSER_EMAIL`
 
 接著我們可以試著使用 GUI 介紹連接 db，
 
@@ -1343,6 +1580,34 @@ docker run --name=portainer -d -p 9000:9000 -v /var/run/docker.sock:/var/run/doc
 
 這個推薦給大家，有時候會遇到 port 被佔用，用指令查比較方便
 
+Linux
+
+安裝 net-tools
+
+```cmd
+sudo apt install net-tools
+```
+
+查看誰佔用 80 port
+
+```cmd
+sudo netstat -lnp | grep -w ':80'
+```
+
+`-l`, `--listening` display listening server sockets.
+
+`-n`, `--numeric` don't resolve names.
+
+`-p`, `--programs` display PID/Program name for sockets.
+
+也可以使用 `lsof`
+
+```cmd
+sudo lsof -i :80
+```
+
+`-i` select IPv[46] files.
+
 Windows
 
 查看所有 port 的佔用狀況
@@ -1399,7 +1664,7 @@ lsof -i tcp:5432
 
 docker 的 container log 都會在 `/var/lib/docker/containers` 裡面
 
-( 前提是你使用官方的安裝方法, [Youtube Tutorial-Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA))
+( 前提是你使用官方的安裝方法, [Youtube Tutorial - Ubuntu(Linux) 如何安裝 docker](https://youtu.be/eS_HMBC_RaA))
 
 如果你是使用 `snap` 安裝 docker, 路徑則會在 `/var/snap/docker/common/var-lib-docker/containers`.
 
@@ -1409,7 +1674,7 @@ log 是一個 json 的檔案
 
 ![alt tag](https://i.imgur.com/feSGmcm.png)
 
-如果你一直不去管他, log 就會越來越大:scream:
+如果你一直不去管他, log 就會越來越大 :scream:
 
 以下狀況這個 log 會被清除, 就是修改了 `docker-compose.yml` 或是
 
@@ -1421,7 +1686,7 @@ log 是一個 json 的檔案
 
 那你可能會問我, 如果我很長一段時間都不會修改 `docker-compose.yml` 以及執行
 
-`docker-compose down` 該怎麼辦:sob: (因為 log 可能會長很快)
+`docker-compose down` 該怎麼辦 :sob: (因為 log 可能會長很快)
 
 這邊提供大家一個方法, 使用 linux 中的 truncate 指令(可參考 [ Linux 指令教學 - truncate](https://github.com/twtrubiks/linux-note#truncate))
 
@@ -1469,7 +1734,83 @@ docker inspect --format '{{.HostConfig.LogConfig}}' CONTAINER
 
 ![alt tag](https://i.imgur.com/L6Z7bYX.png)
 
-這樣設定完之後, 就不用再擔心 container log 吃掉大量的容量了:smile:
+這樣設定完之後, 就不用再擔心 container log 吃掉大量的容量了 :smile:
+
+## Health Check
+
+* [Youtube Tutorial - docker 教學 Health Check](https://youtu.be/QffnQZgvmwE)
+
+直接來看一個範例 [docker-compose.yml](https://github.com/twtrubiks/odoo-docker-tutorial/blob/15.0/docker-compose.yml)
+
+```yml
+version: '3.5'
+services:
+  web:
+    image: odoo:17.0
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+    healthcheck:
+      test: curl -fs http://localhost:8069/web/database/selector || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+    odoo-web-data:
+    odoo-db-data:
+
+```
+
+當執行時, 你會發現多了一個 `health: starting` 如下圖,
+
+![alt tag](https://i.imgur.com/j4TBQ7M.png)
+
+當(每)過了 10 秒 (`interval: 10s`) 之後, 如果順利啟動會變成 `(healthy)` 如下圖,
+
+![alt tag](https://i.imgur.com/g8ysqZ0.png)
+
+當(每)過了 10 秒之後, 如果連續失敗很多次 (`retries: 5`),
+
+則會顯示 `(unhealthy)` 如下圖,
+
+![alt tag](https://i.imgur.com/zJhJf6u.png)
+
+docker 的 Health Check 會回傳你數字,
+
+0 代表成功，container is healthy
+
+1 代表失敗，假設失敗超過指定次數(`retries: 5`), container is unhealthy
+
+至於 depends_on 底下的 `condition: service_healthy` 代表必須檢查通過,
+
+才會啟動, 可參考 [Control startup](https://docs.docker.com/compose/startup-order/#control-startup), 有以下三種,
+
+`service_started` 如果沒有特別指定, 就是這一種.
+
+`service_healthy`
+
+`service_completed_successfully`
 
 ## 後記：
 
@@ -1493,7 +1834,7 @@ Docker 可以玩的真的很多，延伸參考
 ## 執行環境
 
 * Mac
-* Python 3.6.2
+* Python 3.8.12
 * windows 10
 
 ## Reference
@@ -1503,7 +1844,7 @@ Docker 可以玩的真的很多，延伸參考
 
 ## Donation
 
-文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡:laughing:
+文章都是我自己研究內化後原創，如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡 :laughing:
 
 綠界科技ECPAY ( 不需註冊會員 )
 

@@ -1,0 +1,44 @@
+
+x-config-key: &x-config
+  image: nginx
+  restart: always
+  logging:
+    driver: "json-file"
+    options:
+      max-file: "1"
+      max-size: "50m"
+  volumes:
+      - static:/my_tmp
+      - ./local_static:/local_static
+
+services:
+
+  nginx1:
+    <<: *x-config
+    container_name: nginx1
+    ports:
+      - "81:80"
+
+  nginx2:
+    <<: *x-config
+    container_name: nginx2
+    volumes:
+      - static_nginx_2:/tmp2
+    ports:
+      - "82:80"
+
+  nginx3:
+    <<: *x-config
+    container_name: nginx3
+    volumes:
+      - static_nginx_3:/tmp3
+      - static:/my_tmp
+      - ./local_static:/local_static
+    ports:
+      - "83:80"
+
+
+volumes:
+  static:
+  static_nginx_2:
+  static_nginx_3:
